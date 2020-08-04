@@ -21,6 +21,7 @@ RUN /install
 RUN ["mkdir", "-p", "/opt/stellar"]
 RUN ["touch", "/opt/stellar/.docker-ephemeral"]
 
+RUN userdel -r stellar
 RUN useradd --uid 10011001 --home-dir /home/stellar --no-log-init stellar \
     && mkdir -p /home/stellar \
     && chown -R stellar:stellar /home/stellar

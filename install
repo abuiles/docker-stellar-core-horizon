@@ -2,9 +2,14 @@
 set -e
 
 # stellar-core
-wget -O stellar-core.deb https://s3.amazonaws.com/stellar.org/releases/stellar-core/stellar-core-${STELLAR_CORE_VERSION}_amd64.deb
-dpkg -i stellar-core.deb
-rm stellar-core.deb
+wget -qO - https://apt.stellar.org/SDF.asc | apt-key add -
+
+echo "deb http://ftp.de.debian.org/debian sid main " | tee -a /etc/apt/sources.list.d/SDF-unstable.list
+echo "deb https://apt.stellar.org xenial unstable" | tee -a /etc/apt/sources.list.d/SDF-unstable.list
+apt-get install apt-transport-https ca-certificates
+apt-get update
+apt-get -y install libc++1-8
+apt-get -y install stellar-core=14.0.0~unstable-197 -f
 
 # horizon
 wget -O horizon.tar.gz https://github.com/stellar/go/releases/download/horizon-v${HORIZON_VERSION}/horizon-v${HORIZON_VERSION}-linux-amd64.tar.gz
